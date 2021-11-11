@@ -1,8 +1,8 @@
 <?php
 
-header('Access-Control-Allow-Origin: *');
+/*header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
-header("Access-Control-Allow-Headers: X-Requested-With");
+header("Access-Control-Allow-Headers: X-Requested-With");*/
 
 require "BaseController.php";
 require "BaseModel.php";
@@ -25,5 +25,6 @@ if($server_path_info)
 }
 
 require "controllers/{$controller_name}.php";
+require "models/{$controller_name}Model.php";
 $controller     =   new $controller_name;
 $controller->$controller_action_name();

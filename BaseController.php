@@ -2,10 +2,15 @@
 
 class BaseController {
     
-    public function response($output)
+    public function successResponse($payload, $code = 200)
     {
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($output);
+        $arrResponse = [
+            'success' => true,
+            'code' => $code,
+            'payload' => $payload                
+        ];
+        echo json_encode($arrResponse);
         exit;
     }
 }

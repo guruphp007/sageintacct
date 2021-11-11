@@ -6,16 +6,15 @@ class Database{
 
     private static $_instance;
 
-    public static function getInstance( $dbhost = "localhost", $dbname = "myDataBaseName", $username = "root", $password    = "") 
+    public static function getInstance($dbhost = "localhost", $dbname = "myDataBaseName", $username = "root", $password    = "") 
     {
-        if(!self::$_instance) { // If no instance then make one
+        if(!self::$_instance) {
             self::$_instance = new self( $dbhost, $dbname, $username, $password);
         }
         return self::$_instance;
     }
 
-    // this function is called everytime this class is instantiated		
-    private function __construct( $dbhost = "localhost", $dbname = "myDataBaseName", $username = "root", $password    = "")
+    private function __construct($dbhost = "localhost", $dbname = "myDataBaseName", $username = "root", $password    = "")
     {
         try{
             $this->connection = new mysqli($dbhost, $username, $password, $dbname);
@@ -27,11 +26,10 @@ class Database{
         }			
     }
 
-    // Insert a row/s in a Database Table
-    public function Insert( $query = "" , $params = [] )
+    public function Insert($query = "" , $params = [])
     {
         try{
-            $stmt = $this->executeStatement( $query , $params );
+            $stmt = $this->executeStatement( $query , $params);
             $stmt->close();
             return $this->connection->insert_id;
         }catch(Exception $e){
@@ -40,8 +38,7 @@ class Database{
         return false;
     }
 
-    // Select a row/s in a Database Table
-    public function Select( $query = "" , $params = [] )
+    public function Select($query = "" , $params = [])
     {
         try{
             $stmt = $this->executeStatement( $query , $params );
@@ -54,8 +51,7 @@ class Database{
         return false;
     }
 
-    // Update a row/s in a Database Table
-    public function Update( $query = "" , $params = [] )
+    public function Update($query = "" , $params = [])
     {
         try{
             $this->executeStatement( $query , $params )->close();
@@ -65,8 +61,7 @@ class Database{
         return false;
     }		
 
-    // Remove a row/s in a Database Table
-    public function Delete( $query = "" , $params = [] )
+    public function Delete($query = "" , $params = [])
     {
         try{
             $this->executeStatement( $query , $params )->close();
@@ -76,8 +71,7 @@ class Database{
         return false;
     }		
 
-    // execute statement
-    private function executeStatement( $query = "" , $params = [] )
+    private function executeStatement($query = "" , $params = [])
     {
         try{
             $stmt = $this->connection->prepare( $query );
@@ -92,7 +86,5 @@ class Database{
         }catch(Exception $e){
             throw New Exception( $e->getMessage() );
         }
-
     }
-
 }
