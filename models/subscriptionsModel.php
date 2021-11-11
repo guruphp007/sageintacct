@@ -12,7 +12,7 @@ class SubscriptionsModel extends BaseModel {
         $course_id      =   $_POST['course_id'];
         $student_id     =   $_POST['student_id'];
 
-        $id    =   $db->Insert("INSERT INTO course_subscriptions (fk_student_id,fk_course_id,created_at) VALUES (?,?,NOW())", [
+        $id    =   $this->db->Insert("INSERT INTO course_subscriptions (fk_student_id,fk_course_id,created_at) VALUES (?,?,NOW())", [
             'ii', $course_id, $student_id
         ]);
         return $id;
