@@ -4,8 +4,7 @@ class CourseModel extends BaseModel {
 
     public function getCourses()
     {
-        $arrRows    =   $this->db->Select("select * from course_details order by course_name");
-        return $arrRows;
+        return $this->db->fetchAll("select * from course_details order by course_name");
     }
 
     public function save()
@@ -13,10 +12,9 @@ class CourseModel extends BaseModel {
         $course_name            =   $_POST['course_name'];
         $course_description     =   $_POST['course_description'];
 
-        $id    =   $this->db->Insert("INSERT INTO course_details (course_name,course_description,created_at) VALUES (?,?,NOW())", [
+        return $this->db->_execute("INSERT INTO course_details (course_name,course_description,created_at) VALUES (?,?,NOW())", [
             'ss', $course_name, $course_description
         ]);
-        return $id;
     }
 
     public function update()
@@ -25,7 +23,7 @@ class CourseModel extends BaseModel {
         $course_description   =   $_POST['course_description'];
         $course_id   =   $_POST['course_id'];
 
-        $this->db->Update("update course_details set course_name = ?,course_description = ?,updated_at = NOW() where course_id = ?",[
+        return $this->db->_execute("update course_details set course_name = ?,course_description = ?,updated_at = NOW() where course_id = ?", [ 
             'ssi', $course_name, $course_description, $course_id
         ]);
     }
@@ -33,7 +31,7 @@ class CourseModel extends BaseModel {
     public function delete()
     {
         $course_id =   $_POST['course_id'];
-        return $this->db->Delete("delete from course_details where course_id = ?", [
+        return $this->db->_execute("delete from course_details where course_id = ?", [
             'i', $course_id
         ]);
     }

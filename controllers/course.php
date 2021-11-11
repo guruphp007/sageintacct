@@ -4,29 +4,45 @@ class Course extends BaseController {
 
     public function index()
     {
-        $model      =   new CourseModel;
-        $arrResult  =   $model->getCourses();
-        $this->successResponse($arrResult);
+        try {
+            $model      =   new CourseModel;
+            $arrResult  =   $model->getCourses();
+            $this->successResponse($arrResult);
+        } catch (\Throwable $ex) {
+            $this->errorResponse($ex->getMessage(), 500);
+        }
     }
     
     public function create()
     {
-        $model      =   new CourseModel;
-        $arrResult  =   $model->save();
-        $this->successResponse($arrResult);
+        try {
+            $model      =   new CourseModel;
+            $arrResult  =   $model->save();
+            $this->successResponse($arrResult);
+        } catch (\Throwable $ex) {
+            $this->errorResponse($ex->getMessage(), 500);
+        }
     }
 
     public function edit()
     {
-        $model      =   new CourseModel;
-        $arrResult  =   $model->update();
-        $this->successResponse($arrResult);
+        try {
+            $model      =   new CourseModel;
+            $arrResult  =   $model->update();
+            $this->successResponse($arrResult);
+        } catch (\Throwable $ex) {
+            $this->errorResponse($ex->getMessage(), 500);
+        }
     }
 
     public function delete()
     {
-        $model      =   new CourseModel;
-        $arrResult  =   $model->delete();
-        $this->successResponse($arrResult);
+        try {
+            $model      =   new CourseModel;
+            $arrResult  =   $model->delete();
+            $this->successResponse($arrResult);
+        } catch (\Throwable $ex) {
+            $this->errorResponse($ex->getMessage(), 500);
+        }
     }
 }

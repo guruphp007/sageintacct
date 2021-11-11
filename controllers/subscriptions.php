@@ -4,15 +4,23 @@ class Subscriptions extends BaseController {
 
     public function index()
     {
-        $model      =   new SubscriptionsModel;
-        $arrResult  =   $model->getSubscriptions();
-        $this->successResponse($arrResult);
+        try {
+            $model      =   new SubscriptionsModel;
+            $arrResult  =   $model->getSubscriptions();
+            $this->successResponse($arrResult);
+        } catch (\Throwable $ex) {
+            $this->errorResponse($ex->getMessage(), 500);
+        }
     }
     
     public function add()
     {
-        $model      =   new SubscriptionsModel;
-        $arrResult  =   $model->save();
-        $this->successResponse($arrResult);
+        try {
+            $model      =   new SubscriptionsModel;
+            $arrResult  =   $model->save();
+            $this->successResponse($arrResult);
+        } catch (\Throwable $ex) {
+            $this->errorResponse($ex->getMessage(), 500);
+        }
     }
 }
