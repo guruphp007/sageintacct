@@ -16,4 +16,21 @@ class SubscriptionsModel extends BaseModel {
             'ii', $course_id, $student_id
         ]);
     }
+
+    public function getSubscriptionsReport()
+    {
+        return $this->db->fetchAll(
+            "select
+                CONCAT(sd.firstname, ' ' , sd.lastname) student_name,
+                cd.course_name
+            from
+                course_subscriptions cs
+            join student_details sd on
+                sd.student_id = cs.fk_student_id
+            join course_details cd on
+                cd.course_id = cs.fk_course_id
+            ORDER by
+                student_name;"
+        );
+    }
 }

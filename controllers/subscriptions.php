@@ -23,4 +23,15 @@ class Subscriptions extends BaseController {
             $this->errorResponse($ex->getMessage(), 500);
         }
     }
+
+    public function report()
+    {
+        try {
+            $model      =   new SubscriptionsModel;
+            $arrResult  =   $model->getSubscriptionsReport();
+            $this->successResponse($arrResult);
+        } catch (\Throwable $ex) {
+            $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
 }

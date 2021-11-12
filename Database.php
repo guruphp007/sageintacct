@@ -42,7 +42,7 @@ class Database {
             if(count($params))
                 call_user_func_array(array($stmt, 'bind_param'), $params);
             $stmt->execute();
-            $result = $stmt->get_result()->fetch_assoc();
+            $result = $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
             $stmt->close();
             return $result;
         } catch (\Throwable $ex) {
