@@ -5,14 +5,17 @@ class Student extends BaseController {
     public function index()
     {
         try {
-            $limit      =   2;
+            $limit      =   10;
             $offset     =   0;
             
             if(isset($_GET['offset']))
                 $offset     =   (($_GET['offset'] - 1) * $limit);
 
             $model      =   new StudentModel;
-            $arrResult  =   $model->getStudents($offset, $limit);
+            $arrResult['results']  =   $model->getStudents($offset, $limit);
+            $totalStudents  =   $model->getTotalStudents();
+            $arrResult['total_records']     =   $totalStudents;
+            $arrResult['total_pages']       =   ceil($totalStudents/$limit);
             $this->successResponse($arrResult);
         } catch (\Throwable $ex) {
             $this->errorResponse($ex->getMessage(), 500);
@@ -34,7 +37,10 @@ class Student extends BaseController {
     {
         try {
             $model      =   new StudentModel;
-            $arrResult  =   $model->save();
+            if(isset($_POST['student_id']) && $_POST['student_id'] > 0)
+                $arrResult  =   $model->update();
+            else
+                $arrResult  =   $model->save();
             $this->successResponse($arrResult);
         } catch (\Throwable $ex) {
             $this->errorResponse($ex->getMessage(), 500);
@@ -57,6 +63,17 @@ class Student extends BaseController {
         try {
             $model      =   new StudentModel;
             $arrResult  =   $model->delete();
+            $this->successResponse($arrResult);
+        } catch (\Throwable $ex) {
+            $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function getAll()
+    {
+        try {
+            $model      =   new StudentModel;
+            $arrResult['results']  =   $model->getAllStudents();
             $this->successResponse($arrResult);
         } catch (\Throwable $ex) {
             $this->errorResponse($ex->getMessage(), 500);

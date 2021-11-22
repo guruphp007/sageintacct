@@ -7,6 +7,11 @@ class StudentModel extends BaseModel {
         return $this->db->fetchAll("select * from student_details order by firstname, lastname limit {$offset}, {$limit}");
     }
 
+    public function getAllStudents()
+    {
+        return $this->db->fetchAll("select * from student_details order by firstname, lastname");
+    }
+
     public function getStudentById()
     {
         $student_id =   $_GET['id'];
@@ -14,6 +19,12 @@ class StudentModel extends BaseModel {
             'i', $student_id
         ]);
         return $arrRows;
+    }
+
+    public function getTotalStudents()
+    {
+        $arrRows    =   $this->db->fetch("select COUNT(1) as TOT from student_details");
+        return $arrRows['TOT'];
     }
 
     public function save()

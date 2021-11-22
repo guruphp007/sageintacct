@@ -27,8 +27,16 @@ class Subscriptions extends BaseController {
     public function report()
     {
         try {
+            $limit      =   10;
+            $offset     =   0;
+            
+            if(isset($_GET['offset']))
+                $offset     =   (($_GET['offset'] - 1) * $limit);
+
             $model      =   new SubscriptionsModel;
-            $arrResult  =   $model->getSubscriptionsReport();
+            $arrResult['results']  =   $model->getSubscriptionsReport($offset, $limit);
+            $totalStudents  =   $model->getTotalSubscriptions();
+            $arrResult['total_records']     =   $totalStudents;
             $this->successResponse($arrResult);
         } catch (\Throwable $ex) {
             $this->errorResponse($ex->getMessage(), 500);

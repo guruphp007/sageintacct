@@ -2,9 +2,24 @@
 
 class CourseModel extends BaseModel {
 
-    public function getCourses()
+    public function getCourses($offset = 0, $limit = 10)
     {
-        return $this->db->fetchAll("select * from course_details order by course_name");
+        return $this->db->fetchAll("select * from course_details order by course_name limit {$offset}, {$limit}");
+    }
+
+    public function getCourseById()
+    {
+        $course_id =   $_GET['id'];
+        $arrRows    =   $this->db->fetch("select * from course_details where course_id = ?", [
+            'i', $course_id
+        ]);
+        return $arrRows;
+    }
+
+    public function getTotalCourses()
+    {
+        $arrRows    =   $this->db->fetch("select COUNT(1) as TOT from course_details");
+        return $arrRows['TOT'];
     }
 
     public function save()
@@ -34,5 +49,10 @@ class CourseModel extends BaseModel {
         return $this->db->_execute("delete from course_details where course_id = ?", [
             'i', $course_id
         ]);
+    }
+
+    public function getAllCourses()
+    {
+        return $this->db->fetchAll("select * from course_details order by course_name");
     }
 }

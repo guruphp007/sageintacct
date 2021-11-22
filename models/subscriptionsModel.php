@@ -9,15 +9,54 @@ class SubscriptionsModel extends BaseModel {
 
     public function save()
     {
-        $course_id      =   $_POST['course_id'];
-        $student_id     =   $_POST['student_id'];
+        $arrStudentIds	=	$_POST['student_ids'];
+		$arrCourseIds	=	$_POST['course_ids'];
 
-        return $this->db->_execute("INSERT INTO course_subscriptions (fk_student_id,fk_course_id,created_at) VALUES (?,?,NOW())", [
-            'ii', $course_id, $student_id
-        ]);
+        $this->db->_execute("TRUNCATE TABLE course_subscriptions;");
+
+        foreach ($arrStudentIds as $key => $student_id) 
+		{
+            $course_id 		=	$arrCourseIds[$key];
+            
+            $this->db->_execute("INSERT INTO course_subscriptions (fk_student_id,fk_course_id,created_at) VALUES (?,?,NOW())", [
+                'ii', $student_id, $course_id
+            ]);
+        }
+
+        return true;
     }
 
-    public function getSubscriptionsReport()
+    public function saveupdate()
+    {
+        $arrStudentIds	=	$_POST['student_ids'];
+		$arrCourseIds	=	$_POST['course_ids'];
+
+        foreach ($arrStudentIds as $key => $student_id) 
+		{
+            $course_id 		=	$arrCourseIds[$key];
+            
+            $arrResult    =   $this->db->fetch("select * from course_subscriptions where fk_student_id = ?", [
+                'i', $student_id
+            ]);
+
+            if($arrResult)
+            {
+                $this->db->_execute("UPDATE course_subscriptions SET fk_course_id = ?, updated_at = NOW() WHERE subscription_id = ?", [
+                    'ii', $course_id, $arrResult['subscription_id']
+                ]);
+            }
+            else
+            {
+                $this->db->_execute("INSERT INTO course_subscriptions (fk_student_id,fk_course_id,created_at) VALUES (?,?,NOW())", [
+                    'ii', $student_id, $course_id
+                ]);
+            }
+        }
+
+        return true;
+    }
+
+    public function getSubscriptionsReport($offset = 0, $limit = 10)
     {
         return $this->db->fetchAll(
             "select
@@ -30,7 +69,23 @@ class SubscriptionsModel extends BaseModel {
             join course_details cd on
                 cd.course_id = cs.fk_course_id
             ORDER by
-                student_name;"
+                student_name 
+            limit {$offset}, {$limit};"
         );
+    }
+
+    public function getTotalSubscriptions()
+    {
+        $arrRows    =   $this->db->fetch(
+            "select
+                COUNT(1) as TOT
+            from
+                course_subscriptions cs
+            join student_details sd on
+                sd.student_id = cs.fk_student_id
+            join course_details cd on
+                cd.course_id = cs.fk_course_id;"
+        );
+        return $arrRows['TOT'];
     }
 }
