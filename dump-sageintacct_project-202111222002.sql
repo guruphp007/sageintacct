@@ -30,7 +30,7 @@ CREATE TABLE `course_details` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`course_id`),
   UNIQUE KEY `course_id_unidx` (`course_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,9 +51,9 @@ CREATE TABLE `course_subscriptions` (
   UNIQUE KEY `fk_student_course_unik` (`fk_student_id`,`fk_course_id`),
   KEY `fk_student_id_idx` (`fk_student_id`),
   KEY `fk_course_id_idx` (`fk_course_id`),
-  CONSTRAINT `course_subscriptions_FK` FOREIGN KEY (`fk_course_id`) REFERENCES `course_details` (`course_id`),
-  CONSTRAINT `course_subscriptions_FK_1` FOREIGN KEY (`fk_student_id`) REFERENCES `student_details` (`student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  CONSTRAINT `course_subscriptions_FK` FOREIGN KEY (`fk_course_id`) REFERENCES `course_details` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `course_subscriptions_FK_1` FOREIGN KEY (`fk_student_id`) REFERENCES `student_details` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,8 +72,9 @@ CREATE TABLE `student_details` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`student_id`),
-  UNIQUE KEY `student_id_unidx` (`student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  UNIQUE KEY `student_id_unidx` (`student_id`),
+  UNIQUE KEY `student_details_contact_no_uni` (`contact_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,4 +94,4 @@ CREATE TABLE `student_details` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-10 20:27:01
+-- Dump completed on 2021-11-22 20:02:15
