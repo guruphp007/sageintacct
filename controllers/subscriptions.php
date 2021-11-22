@@ -27,7 +27,7 @@ class Subscriptions extends BaseController {
     public function report()
     {
         try {
-            $limit      =   10;
+            $limit      =   5;
             $offset     =   0;
             
             if(isset($_GET['offset']))
@@ -37,6 +37,7 @@ class Subscriptions extends BaseController {
             $arrResult['results']  =   $model->getSubscriptionsReport($offset, $limit);
             $totalStudents  =   $model->getTotalSubscriptions();
             $arrResult['total_records']     =   $totalStudents;
+            $arrResult['total_pages']       =   ceil($totalStudents/$limit);
             $this->successResponse($arrResult);
         } catch (\Throwable $ex) {
             $this->errorResponse($ex->getMessage(), 500);

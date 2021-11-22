@@ -5,7 +5,7 @@ class Course extends BaseController {
     public function index()
     {
         try {
-            $limit      =   10;
+            $limit      =   5;
             $offset     =   0;
             
             if(isset($_GET['offset']))
