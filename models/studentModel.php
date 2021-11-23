@@ -4,7 +4,9 @@ class StudentModel extends BaseModel {
     
     public function getStudents($offset = 0, $limit = 10)
     {
-        return $this->db->fetchAll("select * from student_details order by firstname, lastname limit {$offset}, {$limit}");
+        return $this->db->fetchAll("select * from student_details order by firstname, lastname limit ?, ?", [
+            'ii', $offset, $limit
+        ]);
     }
 
     public function getAllStudents()

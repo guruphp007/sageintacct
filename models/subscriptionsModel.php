@@ -70,8 +70,9 @@ class SubscriptionsModel extends BaseModel {
                 cd.course_id = cs.fk_course_id
             ORDER by
                 student_name 
-            limit {$offset}, {$limit};"
-        );
+            limit ?, ?", [
+                'ii', $offset, $limit
+            ]);
     }
 
     public function getTotalSubscriptions()

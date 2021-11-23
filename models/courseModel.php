@@ -4,7 +4,9 @@ class CourseModel extends BaseModel {
 
     public function getCourses($offset = 0, $limit = 10)
     {
-        return $this->db->fetchAll("select * from course_details order by course_name limit {$offset}, {$limit}");
+        return $this->db->fetchAll("select * from course_details order by course_name limit ?, ?", [
+            'ii', $offset, $limit
+        ]);
     }
 
     public function getCourseById()
